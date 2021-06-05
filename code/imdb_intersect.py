@@ -34,17 +34,11 @@ winners = winners.replace(r'\\N', 0, regex=True)
 # Age when they were nominated. NOTE: This might not have been their actual age as we don't have their birth days. A better approach would be to find a dataset with their age at nomination
 winners["ceremonyAge"]=pd.to_numeric(winners['year_ceremony'], errors='coerce')-pd.to_numeric(winners['birthYear'], errors='coerce')  # Age at the time of the ceremony. NOTE: Some people were nominated after they died, how should we handle this?
 winners.loc[ (winners.ceremonyAge>1000), 'ceremonyAge'] = 0  ## Some entries don't have a birth so making them 0
-# win['birthYear']=pd.to_datetime(win['birthYear'], format='%Y', errors='coerce').year
-# win['deathYear']=pd.to_datetime(win['deathYear'], format='%Y', errors='coerce')
-
-# ## Current age --> Nominees are invited to the Academy, this would give us an idea of what the voting population is
-# # If deathYear empty then make current age Null
 
 # # Checking if nominees are alive
 winners.loc[ (winners.deathYear==0) & (winners.birthYear!=0), 'alive'] = True   
 winners.loc[ (winners.deathYear!=0) & (winners.birthYear!=0), 'alive'] = False
 winners.loc[ (winners.deathYear==0) & (winners.birthYear==0), 'alive'] = False ## if no birth and death year, then not alive
-# win = win.replace(win.nan, 0, regex=True)
 winners['birthYear'] = winners['birthYear'].astype(int)
 
 # # Calculating current age. subtract birthYear from currentYear then if alive=
@@ -55,13 +49,7 @@ winners["currentAge"] = winners['currentYear']- winners['birthYear']
 winners.loc[winners.alive==False, 'currentAge'] = 0
 
 # # Deleting duplicate name column
-# del(winners["primaryName"])
-# win.loc[]
+del(winners["primaryName"])
 
-# # print(winners.head(if not winners["birthYear"]))
-print(winners.head(20))
-# winners.head(50)
+
 winners.to_csv('../data/clean_names.csv', index=False)
-# # l=win['birthYear']
-# # l.head(50)
-# winners.head(20)
